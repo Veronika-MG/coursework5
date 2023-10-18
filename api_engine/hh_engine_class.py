@@ -17,6 +17,10 @@ class HeadHunterApiHandler(AbstractAPIEngine):
         }
 
     def get_vacancies_data(self) -> list[dict]:
+        """
+        Получение данных о вакансиях через Api
+        :return:
+        """
         response = httpx.get(self.url, params=self.params)
         if not response.status_code == 200:
             raise HHApiError(f"Error type: {response.json()['errors'][0]['type']}"
@@ -24,6 +28,10 @@ class HeadHunterApiHandler(AbstractAPIEngine):
         return response.json()['items']
 
     def get_employer_data(self) -> list[dict]:
+        """
+        Получение данных о работодателях
+        :return:
+        """
         return [
             {
                 'id': uid,

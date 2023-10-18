@@ -11,10 +11,10 @@ if __name__ == '__main__':
     load_dotenv()
 
     create_db(dbname='coursework',
-        user='postgres',
-        password=os.environ.get('DB_PASSWORD'),
-        host='localhost',
-        port='5432')
+              user='postgres',
+              password=os.environ.get('DB_PASSWORD'),
+              host='localhost',
+              port='5432')
 
     db = PostgresDBManager(
         dbname='coursework',

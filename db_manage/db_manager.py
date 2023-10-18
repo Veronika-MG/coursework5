@@ -3,6 +3,9 @@ import psycopg2
 from db_manage.abstract_db_manager import AbstractDBManager
 
 def create_db(dbname, user, password, host, port):
+    """
+    Создание базы данных с именем, которое введет пользователь
+    """
     conn = psycopg2.connect(dbname="postgres",
                             user=user,
                             password=password,
@@ -18,6 +21,9 @@ def create_db(dbname, user, password, host, port):
 
 
 class PostgresDBManager(AbstractDBManager):
+    """
+    Класс для работы с базой данных postgres
+    """
     def __init__(self, dbname, user, password, host, port):
         self.conn = psycopg2.connect(database=dbname,
                                      user=user,
@@ -27,6 +33,10 @@ class PostgresDBManager(AbstractDBManager):
 
 
     def create_tables(self):
+        """
+        Метод для создания таблиц внутри базы данных
+        :return:
+        """
         with self.conn.cursor() as cur:
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS companies (
@@ -48,6 +58,10 @@ class PostgresDBManager(AbstractDBManager):
             self.conn.commit()
 
     def drop_tables(self):
+        """
+        Метод для удаления таблиц внутри базы-данных
+        :return:
+        """
         with self.conn.cursor() as cur:
             cur.execute("DROP TABLE IF EXISTS vacancies;")
             cur.execute("DROP TABLE IF EXISTS companies;")
@@ -91,6 +105,11 @@ class PostgresDBManager(AbstractDBManager):
             return cur.fetchall()
 
     def get_vacancies_with_keyword(self, keyword):
+        """
+        Метод получает список всех вакансий, в названии которых содержатся переданные в метод слова
+        :param keyword:
+        :return:
+        """
         with self.conn.cursor() as cur:
             cur.execute(f"""
                 SELECT companies.name, vacancies.salary_min, vacancies.salary_max, vacancies.url
